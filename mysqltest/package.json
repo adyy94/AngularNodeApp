@@ -1,0 +1,17 @@
+{
+  "name": "NodejsWebApp1",
+  "version": "0.0.0",
+  "description": "NodejsWebApp1",
+  "main": "server.js",
+  "author": {
+    "name": "ady_d",
+    "email": ""
+  },
+  "dependencies": {
+    "angular-resource": "^1.5.2",
+    "body-parser": "^1.15.0",
+    "express": "^4.13.4",
+    "mssql": "^3.1.2",
+    "mysql": "^2.10.2"
+  }
+}
