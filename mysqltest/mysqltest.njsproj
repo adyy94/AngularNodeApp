@@ -32,9 +32,9 @@
   <ItemGroup>
     <Compile Include="resource\angular-resource.js" />
     <Compile Include="server.js" />
+    <Compile Include="view\script.js" />
     <Content Include="package.json" />
     <Content Include="README.md" />
-    <Content Include="view\edit.html" />
     <Content Include="view\index.html" />
   </ItemGroup>
   <ItemGroup>

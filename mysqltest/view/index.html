@@ -5,6 +5,8 @@
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"> </script>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" />
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css" />
+   
+   
 
 
      <meta charset="utf-8" />
@@ -12,7 +14,7 @@
     
 </head>
 <body ng-app="myApp">
-    <div  ng-controller="customersCtrl">
+    <div ng-controller="customersCtrl">
 
         <table class="table table-striped table-responsive">
             <tr>
@@ -20,7 +22,7 @@
                 <th>BookName</th>
                 <th>Author</th>
                 <th>Price</th>
-               
+
                 <th></th>
             </tr>
             <tr ng-repeat="book in myData">
@@ -28,44 +30,69 @@
                 <td>{{book.BookName}}</td>
                 <td>{{book.AuthorName}}</td>
                 <td>{{book.Price}}</td>
-                
-                <th> <input type="submit"      ng-click="Delete(book.id)" value="Delete" /></th>
+
+                <th> <input type="submit" ng-click="Delete(book.id)" value="Delete" /></th>
             </tr>
         </table>
 
-    </div>
-    <div  ng-controller="createCtrl">
-        <form >
-            
 
-                <p>Book Name: <input type="text" name="authorname" ng-model="authorname" required /></p>
-                <p>Author Name: <input type="text" name="bookname" ng-model="bookname" required /></p>
+        <div>
+            <form>
+
+
+                <p>Book Name: <input type="text" name="authorname" ng-model="bookname" required /></p>
+                <p>Author Name: <input type="text" name="bookname" ng-model="authorname" required /></p>
                 <p>Price : <input type="number" name="price" ng-model="price" required /></p>
                 <input type="submit" ng-click="Save()" value="Submit" />
                 <hr />
 
-</form>
+            </form>
+        </div>
     </div>
+   
     <script>
-
         var app = angular.module('myApp', []);
         app.controller('customersCtrl', function ($scope, $http) {
+            $scope.myData = {};
 
             $http.get("/books").then(function (response) {
+
                 $scope.myData = response.data.Books;
+
             });
 
             $scope.Delete = function (book) {
+
 
                 if (confirm('Are you sure you want to delete this?')) {
                     // TODO:  Do something here if the answer is "Ok".
 
                     $http.delete('books/' + book);
-                    alert('datele au fost sterse cu succes');
-                    $window.location.reload();
-                  
+                    // alert('datele au fost sterse cu succes');
+                    var index = $scope.myData.indexOf(book);
+                    $scope.myData.splice(index, 1);
+
                 }
 
+            };
+
+
+            $scope.Save = function () {
+
+                var data = {
+                    bookname: $scope.bookname,
+                    authorname: $scope.authorname,
+                    price: $scope.price
+                };
+
+
+
+                $http.post('/books', data).success(function (data) {
+
+                    alert('datele au fost salvate cu succes!');
+                    $scope.myData.push($scope.data);
+
+                })
 
             };
 
@@ -78,35 +105,16 @@
 
         app.controller('createCtrl', function ($scope, $http) {
 
-            $scope.Save = function () {
-                
-                var data = {
-                    bookname: $scope.bookname,
-                    authorname: $scope.authorname,
-                    price: $scope.price
-                };
 
-
-
-                $http.post('/books', data)
-                                .success(function (data) {
-                                    console.log(data);
-                                    alert('datele au fost salvate cu succes!');
-
-                                })
-
-            };
 
         });
+
        
-      
-      
+
 
     </script>
-    
-
-
 
 
 </body>
+
 </html>
