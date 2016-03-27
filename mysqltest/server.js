@@ -1,4 +1,5 @@
-﻿var app = require('express')();
+﻿var express = require('express');
+var app = express();
 var http = require('http').Server(app);
 var mysql = require('mysql');
 var bodyParser = require("body-parser");
@@ -10,6 +11,8 @@ var connection = mysql.createConnection({
 });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(express.static(__dirname + '/view'));    
+              
 
 /*
 app.get('/', function (req, res) {
@@ -138,10 +141,11 @@ app.delete('/books/:id', function (req, res) {
 });
 
 app.get('*', function (req, res) {
+   
     res.sendfile('./view/index.html'); // load the single view file (angular will handle the page changes on the front-end)
 });
 
 
-http.listen(8080, function () {
-    console.log("Connected & Listen to port 8080");
+http.listen(5000, function () {
+    console.log("Connected & Listen to port 5000");
 });
